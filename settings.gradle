@@ -1,0 +1,6 @@
+rootProject.name = 'record'
+include 'mongo'
+include 'clickhouse'
+include 'db'
+include 'netty'
+
