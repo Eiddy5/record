@@ -2,6 +2,7 @@ package org.example.bio.server;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -48,7 +49,7 @@ public class Server {
             // 通过socket获取输入流
             System.out.println("read");
             InputStream inputStream = socket.getInputStream();
-            int read = inputStream.read();
+            int read = inputStream.read(bytes);
             if (read != -1) {
                 System.out.println("输出客户端信息" + new String(bytes, 0, read, StandardCharsets.UTF_8));
             }

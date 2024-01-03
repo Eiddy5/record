@@ -57,8 +57,6 @@ public class Server {
             System.out.println("接收到的信息是" + msg);
             String resp = "hello client";
             socketChannel.write(ByteBuffer.wrap(resp.getBytes()));
-        } else {
-            socketChannel.close();
         }
 
     }
