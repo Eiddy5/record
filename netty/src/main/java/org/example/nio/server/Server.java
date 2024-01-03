@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 public class Server {
@@ -31,6 +32,7 @@ public class Server {
                     } else if (key.isReadable()) {
                         handleReadableKey(key);
                     }
+                    selectionKeys.remove(key);
                 }
             }
         } catch (IOException e) {
@@ -55,9 +57,6 @@ public class Server {
             buffer.get(data);
             String msg = new String(data);
             System.out.println("接收到的信息是" + msg);
-            String resp = "hello client";
-            socketChannel.write(ByteBuffer.wrap(resp.getBytes()));
         }
-
     }
 }
