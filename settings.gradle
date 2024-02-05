@@ -3,4 +3,7 @@ include 'mongo'
 include 'clickhouse'
 include 'db'
 include 'netty'
+include 'pptEngine'
+include 'pptShow'
+include 'pptEngine'
 

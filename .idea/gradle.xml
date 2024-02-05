@@ -13,6 +13,8 @@
             <option value="$PROJECT_DIR$/db" />
             <option value="$PROJECT_DIR$/mongo" />
             <option value="$PROJECT_DIR$/netty" />
+            <option value="$PROJECT_DIR$/pptEngine" />
+            <option value="$PROJECT_DIR$/pptShow" />
           </set>
         </option>
       </GradleProjectSettings>
