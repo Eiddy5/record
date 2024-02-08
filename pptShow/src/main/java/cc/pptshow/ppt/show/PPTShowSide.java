@@ -483,8 +483,7 @@ public class PPTShowSide {
     private int findMinElement(List<PPTElement> elements) {
         Integer min = null;
         for (PPTElement element : elements) {
-            if (Objects.nonNull(element.getInAnimation())
-                && (Objects.isNull(min) || min > element.getInAnimation().getIndex())) {
+            if (Objects.nonNull(element.getInAnimation()) && (Objects.isNull(min) || min > element.getInAnimation().getIndex())) {
                 min = element.getInAnimation().getIndex();
             }
             if (Objects.nonNull(element.getOutAnimation())
