@@ -7,4 +7,5 @@ include 'pptEngine'
 include 'pptShow'
 include 'pptEngine'
 include 'annotation'
+include 'dynamic'
 
