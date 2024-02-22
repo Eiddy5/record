@@ -1,41 +1,24 @@
 package com.engine.ext;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.Feature;
+import com.engine.ext.jooq.config.JOOQ;
+import org.jooq.Field;
+import org.jooq.impl.DSL;
+import org.jooq.impl.SQLDataType;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+
 
 public class Main {
     public static void main(String[] args) {
+        ArrayList<Field<?>> fields = new ArrayList<>();
+        fields.add(DSL.field("a", SQLDataType.VARCHAR(100)));
+        fields.add(DSL.field("b", SQLDataType.VARCHAR(100)));
 
-        HashMap<String, List<Object>> map = new HashMap<>();
-        map.put("info", List.of("city", "age", "a", "b", "c", "d", "e", "f", "g", "h"));
+        createTable("check_point_task", fields);
+    }
 
-        String string = """
-                {
-                    "id": "123",
-                    "name": "张三",
-                    "city": "北京",
-                    "age": 18,
-                    "a": 1,
-                    "b": 2,
-                    "c": 3,
-                    "d": 4,
-                    "e": 5,
-                    "f": 6,
-                    "g": 7,
-                    "h": 8
-                }
-                """;
-        JSONObject jsonObject = JSONObject.parseObject(string, Feature.IgnoreNotMatch);
-        Person person = jsonObject.toJavaObject(Person.class);
-
-        jsonObject.keySet().stream()
-                .filter(key -> map.getOrDefault("info", List.of()).contains(key))
-                .forEach(key -> person.getExt().put(key, jsonObject.get(key)));
-
-
-        System.out.println(person);
+    public static void createTable(String tableName, Collection<? extends Field<?>> fields) {
+        JOOQ.use().createTableIfNotExists(tableName).columns(fields).execute();
     }
 }
