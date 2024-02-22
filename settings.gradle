@@ -8,4 +8,5 @@ include 'pptShow'
 include 'pptEngine'
 include 'annotation'
 include 'dynamic'
+include 'demo'
 
