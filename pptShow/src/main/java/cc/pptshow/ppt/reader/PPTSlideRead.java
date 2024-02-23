@@ -157,8 +157,8 @@ public class PPTSlideRead {
         PPTLine pptLine = new PPTLine();
         PPTLineCss pptLineCss = new PPTLineCss();
         elementToLocationCss(pptRealElement, pptLineCss, scaleOffX, scaleOffY, scaleExtX, scaleExtY);
-        pptLineCss.setLineWidth(findLineWidth(pptRealElement));
-        pptLineCss.setColor(findColor(pptRealElement));
+//        pptLineCss.setLineWidth(findLineWidth(pptRealElement));
+//        pptLineCss.setColor(findColor(pptRealElement));
 
         Element spPr = findChildByName(pptRealElement, SP_PR);
         Element xfrm = findChildByName(spPr, XFRM);

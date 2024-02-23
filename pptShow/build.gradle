@@ -8,7 +8,7 @@ version = '1.0-SNAPSHOT'
 
 
 javafx {
-    version = "14"  // 根据你的需要选择 JavaFX 版本
+    version = "21"  // 根据你的需要选择 JavaFX 版本
     modules = [ 'javafx.controls', 'javafx.fxml' ]  // 根据需要添加其他模块
 }
 repositories {
