@@ -1,10 +1,9 @@
 package org.example.bio.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.http.WebSocket;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,7 +11,7 @@ import java.util.concurrent.Executors;
 public class Server {
     public static void main(String[] args) {
         int port = 6666;
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(port);
@@ -21,12 +20,9 @@ public class Server {
                 System.out.println("等待连接");
                 Socket accept = serverSocket.accept();
                 System.out.println("连接到一个客户端");
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 和客户端通信
-                        handler(accept);
-                    }
+                executorService.execute(() -> {
+                    // 和客户端通信
+                    handler(accept);
                 });
             }
         } catch (IOException e) {
@@ -53,6 +49,15 @@ public class Server {
             if (read != -1) {
                 System.out.println("输出客户端信息" + new String(bytes, 0, read, StandardCharsets.UTF_8));
             }
+
+            OutputStream outputStream = socket.getOutputStream();
+            PrintWriter out = new PrintWriter(outputStream, true);
+            String res = """
+                    HTTP/1.1 200 OK
+                    Content-Type:text/html;charset=utf-8
+                    hello
+                    """;
+            out.println(res);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
