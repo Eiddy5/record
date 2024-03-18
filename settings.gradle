@@ -12,4 +12,6 @@ include 'demo'
 include 'spring'
 include 'httpServer'
 include 'dubbo'
+include 'validation'
+include 'designMode'
 
