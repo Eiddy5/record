@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/httpServer" />
             <option value="$PROJECT_DIR$/mongo" />
             <option value="$PROJECT_DIR$/netty" />
+            <option value="$PROJECT_DIR$/orient" />
             <option value="$PROJECT_DIR$/pptEngine" />
             <option value="$PROJECT_DIR$/spring" />
             <option value="$PROJECT_DIR$/validation" />
