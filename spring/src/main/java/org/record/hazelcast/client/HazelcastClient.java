@@ -25,7 +25,9 @@ public class HazelcastClient {
     private HazelcastClient() {
         Config config = new Config();
         config.setClusterName("dev");
-        config.getJetConfig().setEnabled(true).setBackupCount(2);
+        config.getJetConfig()
+                .setEnabled(true)
+                .setBackupCount(1);
         NetworkConfig networkConfig = config.getNetworkConfig()
                 .setPort(5701)
                 .setPortAutoIncrement(true)
@@ -35,6 +37,7 @@ public class HazelcastClient {
                 .setEnabled(true)
                 .addMember("localhost:5701")
                 .addMember("localhost:5702");
+
 
         hazelcastInstance = Hazelcast.newHazelcastInstance(config);
         map = hazelcastInstance.getMap(MAP_NAME);
