@@ -35,6 +35,7 @@ public class HazelcastClient {
                 .setEnabled(true)
                 .addMember("localhost:5701")
                 .addMember("localhost:5702");
+
         hazelcastInstance = Hazelcast.newHazelcastInstance(config);
         map = hazelcastInstance.getMap(MAP_NAME);
     }
