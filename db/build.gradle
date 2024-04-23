@@ -1,6 +1,10 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '3.2.5'
 }
+
+ext['slf4j.version'] = '1.7.20'
+apply plugin: 'io.spring.dependency-management'
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
@@ -20,7 +24,8 @@ dependencies {
     implementation 'org.jooq:jooq:3.19.3'
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     implementation 'org.jetbrains:annotations:24.0.1'
-
+    // https://mvnrepository.com/artifact/com.hazelcast/hazelcast
+    implementation group: 'com.hazelcast', name: 'hazelcast', version: '5.3.6'
 
 }
 
