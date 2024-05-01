@@ -1,10 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.5'
 }
 
-ext['slf4j.version'] = '1.7.20'
-apply plugin: 'io.spring.dependency-management'
 
 group = 'org.db'
 version = '1.0-SNAPSHOT'
@@ -14,19 +11,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.mongodb:mongodb-driver-sync:4.11.0'
     implementation 'com.alibaba:fastjson:1.2.83'
-    // https://mvnrepository.com/artifact/redis.clients/jedis
     implementation 'redis.clients:jedis:3.7.0'
-    // https://mvnrepository.com/artifact/org.jooq/jooq
     implementation 'org.jooq:jooq:3.19.3'
-    // https://mvnrepository.com/artifact/org.jetbrains/annotations
     implementation 'org.jetbrains:annotations:24.0.1'
-    // https://mvnrepository.com/artifact/com.hazelcast/hazelcast
-    implementation group: 'com.hazelcast', name: 'hazelcast', version: '5.3.6'
-
 }
 
 test {

@@ -1,14 +1,15 @@
 package org.record.controller;
 
-import org.client.HazelcastClient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.hazelmap.HMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HazelcastTest {
 
-    @Autowired
-    HazelcastClient client;
+    private HMap hMap = new HMap();
 
     @GetMapping("/")
     String home() {
@@ -17,13 +18,13 @@ public class HazelcastTest {
 
     @GetMapping("/get")
     Object get(@RequestParam String key) {
-        Object o = client.get(key);
-        return o;
+        hMap.get(key);
+        return key;
     }
 
     @PostMapping("/put")
     Object put(@RequestParam String key, @RequestParam Object obj) {
-        Object put = client.put(key, obj);
+        hMap.put(key,obj);
         return "添加成功!";
     }
 

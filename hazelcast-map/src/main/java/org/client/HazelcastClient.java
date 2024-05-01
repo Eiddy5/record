@@ -44,7 +44,7 @@ public class HazelcastClient {
     public static HazelcastInstance getInstance() {
         return instance;
     }
-    public IMap<Object,Object> getMap(){
+    public static IMap<Object,Object> getMap(){
         return map;
     }
 }

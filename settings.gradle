@@ -1,4 +1,9 @@
 rootProject.name = 'record'
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
 include(
         'db',
         'netty',
