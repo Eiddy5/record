@@ -1,7 +1,9 @@
 rootProject.name = 'record'
 dependencyResolutionManagement {
     repositories {
-        mavenCentral()
+        maven{
+            url = 'https://maven.aliyun.com/repository/public'
+        }
     }
 }
 include(

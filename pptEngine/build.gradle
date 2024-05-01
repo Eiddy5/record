@@ -5,9 +5,6 @@ plugins {
 group = 'com.engine'
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml

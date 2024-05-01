@@ -1,17 +1,18 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.5'
+    id 'application'
 }
 
 apply plugin: 'io.spring.dependency-management'
 
+application{
+    mainClass = 'org.record.spring.SpringApplication'
+}
 
 group = 'org.record'
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     implementation project(':hazelcast-map')
