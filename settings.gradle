@@ -1,18 +1,10 @@
 rootProject.name = 'record'
-include 'mongo'
-include 'clickhouse'
-include 'db'
-include 'netty'
-include 'pptEngine'
-//include 'pptShow'
-include 'pptEngine'
-include 'annotation'
-include 'dynamic'
-include 'demo'
-include 'spring'
-include 'httpServer'
-include 'dubbo'
-include 'validation'
-include 'designMode'
-include 'orient'
-
+include(
+        'db',
+        'netty',
+        'pptEngine',
+        'spring',
+        'httpServer',
+        'dubbo',
+        'hazelcast-map'
+)

@@ -6,7 +6,7 @@ plugins {
 ext['slf4j.version'] = '1.7.20'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'org.example'
+group = 'org.db'
 version = '1.0-SNAPSHOT'
 
 repositories {

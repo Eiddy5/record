@@ -1,6 +1,6 @@
 package org.record.controller;
 
-import org.record.hazelcast.client.HazelcastClient;
+import org.client.HazelcastClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
