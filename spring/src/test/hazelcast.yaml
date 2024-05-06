@@ -1,0 +1,31 @@
+hazelcast:
+  cluster-name: dev
+  network:
+    port:
+      port: 5701
+      port-count: 20
+      auto-increment: true
+    join:
+      multicast:
+        enabled: true
+        multicast-group: 224.5.5.8
+        multicast-port: 54327
+      tcp-ip:
+        enabled: false
+#        interface: 196.168.1.128
+        member-list:
+          - 196.168.1.128:5701
+          - 196.168.1.128:5702
+  map:
+    default:
+      backup-count: 1
+      in-memory-format: BINARY
+      max-idle-seconds: 3600
+      time-to-live-seconds: 30000
+      eviction:
+        eviction-policy: LRU
+        max-size-policy: PER_NODE
+        size: 20
+  jet:
+    enabled: true
+    backup-count: 1

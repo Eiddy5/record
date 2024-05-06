@@ -1,6 +1,7 @@
 package org.record.controller;
 
-import org.record.hazelcast.client.HazelcastClient;
+import org.record.domain.Person;
+import org.record.hazelcast.HazelcastClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +16,13 @@ public class HazelcastTest {
         return "Hello World!";
     }
 
-    @GetMapping("/get")
-    Object get(@RequestParam String key) {
-        Object o = client.get(key);
-        return o;
+    @GetMapping("/get/{key}")
+    Object get(@PathVariable String key) {
+        return null;
     }
 
     @PostMapping("/put")
-    Object put(@RequestParam String key, @RequestParam Object obj) {
-        Object put = client.put(key, obj);
+    Object put(@RequestBody Person person) {
         return "添加成功!";
     }
 
