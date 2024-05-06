@@ -1,28 +1,30 @@
 package org.record.controller;
 
-import org.record.domain.Person;
-import org.record.hazelcast.HazelcastClient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.hazelmap.HMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HazelcastTest {
 
-    @Autowired
-    HazelcastClient client;
+    private HMap hMap = new HMap();
 
     @GetMapping("/")
     String home() {
         return "Hello World!";
     }
 
-    @GetMapping("/get/{key}")
-    Object get(@PathVariable String key) {
-        return null;
+    @GetMapping("/get")
+    Object get(@RequestParam String key) {
+        hMap.get(key);
+        return key;
     }
 
     @PostMapping("/put")
-    Object put(@RequestBody Person person) {
+    Object put(@RequestParam String key, @RequestParam Object obj) {
+        hMap.put(key,obj);
         return "添加成功!";
     }
 
