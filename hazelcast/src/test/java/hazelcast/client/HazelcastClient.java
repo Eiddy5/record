@@ -1,4 +1,4 @@
-package org.hazelcast.client;
+package hazelcast.client;
 
 import com.hazelcast.config.*;
 import com.hazelcast.core.Hazelcast;

@@ -1,4 +1,4 @@
-package org.hazelcast;
+package hazelcast;
 
 import org.hazelcast.client.HazelcastClient;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,8 @@ public class HazelMap<T> {
         return new HazelMap<>(clazz);
     }
 
-    public Object write(@NotNull String key, @NotNull Object value, long ttl, @NotNull TimeUnit ttlUnit, long maxIdle, @NotNull TimeUnit maxIdleUnit) {
+
+    public Object write(@NotNull String key, @NotNull T value, long ttl, @NotNull TimeUnit ttlUnit, long maxIdle, @NotNull TimeUnit maxIdleUnit) {
         Class<T> tClass = schemeMap.get(clazz.getName());
 
         return dataMap.put(key, value);
