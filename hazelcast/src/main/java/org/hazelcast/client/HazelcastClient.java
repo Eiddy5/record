@@ -5,6 +5,8 @@ import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 
+import java.util.Map;
+
 public class HazelcastClient<T> {
     public static final IMap<String, Boolean> DiagnosticMap;
     public static final IMap<String, String> KeyValueMap;

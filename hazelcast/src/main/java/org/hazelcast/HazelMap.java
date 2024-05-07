@@ -1,9 +1,14 @@
 package org.hazelcast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hazelcast.query.Predicate;
 import org.hazelcast.client.HazelcastClient;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -11,28 +16,52 @@ public class HazelMap<T> {
 
     private HazelcastClient<T> hazelcastClient;
     private Class<T> clazz;
-    private final Map<String, Object> dataMap;
-    private final Map<String, Class<T>> schemeMap;
+    private Map<String, String> dataMap;
 
     private HazelMap(Class<T> clazz) {
         this.clazz = clazz;
-        this.dataMap = new HashMap<>();
-        this.schemeMap = new HashMap<>();
+        if (dataMap == null) {
+            dataMap = new HashMap<>();
+        }
     }
 
-
-    public HazelMap<T> use(Class<T> clazz) {
-        String name = clazz.getName();
-        if (schemeMap.containsKey(name)) {
-            this.clazz = schemeMap.get(name);
-        }
-        schemeMap.put(name, clazz);
+    public static <T> HazelMap<T> use(Class<T> clazz) {
         return new HazelMap<>(clazz);
     }
 
-    public Object write(@NotNull String key, @NotNull Object value, long ttl, @NotNull TimeUnit ttlUnit, long maxIdle, @NotNull TimeUnit maxIdleUnit) {
-        Class<T> tClass = schemeMap.get(clazz.getName());
+    public boolean query(Predicate<String, T> predicate) {
+        List<T> result = new ArrayList<>();
+        return false;
+    }
 
-        return dataMap.put(key, value);
+    public T get(@NotNull String key) {
+        String s = dataMap.get(key);
+        // 获取序列化方式
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            T t = mapper.readValue(s, clazz);
+            return t;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public T write(@NotNull String key, @NotNull T value) {
+        return write(key, value, 7, TimeUnit.DAYS, 7, TimeUnit.DAYS);
+    }
+
+    public T write(@NotNull String key, @NotNull T value, long ttl, @NotNull TimeUnit ttlUnit, long maxIdle, @NotNull TimeUnit maxIdleUnit) {
+        // 获取序列化方式
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            // 将值序列化
+            String s = mapper.writeValueAsString(value);
+            // 存放进map中
+            dataMap.put(key, s);
+            return value;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
