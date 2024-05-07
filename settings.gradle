@@ -6,13 +6,10 @@ dependencyResolutionManagement {
         }
     }
 }
-include(
-        'db',
-        'netty',
-        'pptEngine',
-        'spring',
-        'httpServer',
-        'dubbo',
-)
 include 'hazelcast'
-
+include 'db'
+include 'netty'
+include 'pptEngine'
+include 'spring'
+include 'httpServer'
+include 'dubbo'
