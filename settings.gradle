@@ -13,5 +13,6 @@ include(
         'spring',
         'httpServer',
         'dubbo',
-        'hazelcast-map'
 )
+include 'hazelcast'
+

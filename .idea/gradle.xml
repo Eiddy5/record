@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/db" />
             <option value="$PROJECT_DIR$/dubbo" />
+            <option value="$PROJECT_DIR$/hazelcast" />
             <option value="$PROJECT_DIR$/hazelcast-map" />
             <option value="$PROJECT_DIR$/httpServer" />
             <option value="$PROJECT_DIR$/netty" />
