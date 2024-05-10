@@ -1,17 +1,10 @@
 rootProject.name = 'record'
-dependencyResolutionManagement {
-    repositories {
-        maven{
-            url = 'https://maven.aliyun.com/repository/public'
-        }
-    }
-}
-include(
-        'db',
-        'netty',
-        'pptEngine',
-        'spring',
-        'httpServer',
-        'dubbo',
-        'hazelcast-map'
-)
+
+
+include 'hazelcast'
+include 'db'
+include 'netty'
+include 'pptEngine'
+include 'spring'
+include 'httpServer'
+include 'dubbo'
