@@ -6,12 +6,33 @@ import org.hazelcast.client.protobuf.Encoder;
 
 public abstract class BaseCodec implements Codec {
     @Override
-    public Decoder<Object> getValueDecoder() {
-        return null;
+    public Decoder<Object> getMapValueDecoder() {
+        return getValueDecoder();
     }
 
     @Override
-    public Encoder getValueEncoder() {
-        return null;
+    public Encoder getMapValueEncoder() {
+        return getValueEncoder();
     }
+
+    @Override
+    public Decoder<Object> getMapKeyDecoder() {
+        return getValueDecoder();
+    }
+
+    @Override
+    public Encoder getMapKeyEncoder() {
+        return getValueEncoder();
+    }
+
+    @Override
+    public ClassLoader getClassLoader() {
+        return getClass().getClassLoader();
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
+
 }
