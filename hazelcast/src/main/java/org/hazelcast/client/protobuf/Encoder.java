@@ -17,12 +17,13 @@ package org.hazelcast.client.protobuf;
 
 
 import io.netty.buffer.ByteBuf;
+import org.hazelcast.metadata.HazelMetadata;
 
 import java.io.IOException;
 
 public interface Encoder {
 
-    ByteBuf encode(Object in) throws IOException;
+    String encode(Object in) throws IOException;
 
 }
 

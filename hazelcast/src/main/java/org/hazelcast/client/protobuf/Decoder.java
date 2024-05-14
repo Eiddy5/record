@@ -16,14 +16,12 @@
 package org.hazelcast.client.protobuf;
 
 
-import io.netty.buffer.ByteBuf;
-import org.hazelcast.metadata.HazelMetadata;
 
 import java.io.IOException;
 
 public interface Decoder<R> {
 
-    R decode(ByteBuf buf, HazelMetadata state) throws IOException;
+    R decode(String str) throws IOException;
 
 }
 

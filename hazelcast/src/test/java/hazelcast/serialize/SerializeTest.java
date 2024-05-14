@@ -2,16 +2,16 @@ package hazelcast.serialize;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.netty.buffer.ByteBuf;
-import io.netty.util.internal.StringUtil;
 import org.domain.Person;
 import org.hazelcast.client.protobuf.Decoder;
 import org.hazelcast.client.protobuf.Encoder;
-import org.hazelcast.codec.StringCodec;
+import org.hazelcast.codec.JacksonCodec;
 import org.hazelcast.metadata.HazelMetadata;
+import org.hazelcast.metadata.MetadataEnum;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class SerializeTest {
@@ -27,14 +27,18 @@ public class SerializeTest {
     @Test
     public void testJackCodec() throws IOException {
         Person person = new Person();
-        StringCodec codec = new StringCodec();
+        JacksonCodec codec = new JacksonCodec();
         Encoder encoder = codec.getValueEncoder();
-        ByteBuf encode = encoder.encode(person);
-        byte b = encode.readByte();
-        Decoder<Object> decoder = codec.getValueDecoder();
-
-        Object decode = decoder.decode(encode, null);
+        HazelMetadata metadata = new HazelMetadata(MetadataEnum.Object, List.of(person));
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(objectMapper.writeValueAsString(metadata));
+        String string = encoder.encode(metadata);
+        System.out.println(string);
+        Decoder<HazelMetadata> decoder = codec.getValueDecoder();
+        HazelMetadata decode = decoder.decode(string);
         System.out.println(decode);
+        Person value = decode.getValue();
+        System.out.println(value);
     }
 
 }
