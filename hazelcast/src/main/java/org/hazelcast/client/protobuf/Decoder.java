@@ -17,11 +17,13 @@ package org.hazelcast.client.protobuf;
 
 
 
+import io.netty.buffer.ByteBuf;
+
 import java.io.IOException;
 
 public interface Decoder<R> {
 
-    R decode(String str) throws IOException;
+    R decode(ByteBuf buf) throws IOException;
 
 }
 

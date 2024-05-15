@@ -6,9 +6,11 @@ import com.hazelcast.query.Predicate;
 import io.netty.buffer.ByteBuf;
 import org.hazelcast.client.HazelcastClient;
 import org.hazelcast.client.codec.Codec;
+import org.hazelcast.client.protobuf.Encoder;
 import org.hazelcast.codec.JacksonCodec;
 import org.hazelcast.metadata.HazelMetadata;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -18,14 +20,12 @@ import java.util.concurrent.TimeUnit;
 
 public class HazelMap<T> {
 
-    private final Class<T> clazz;
     private final Map<String, String> dataMap;
-    private final Codec codec;
+    private final JacksonCodec<T> codec;
 
     private HazelMap(Class<T> clazz) {
-        this.clazz = clazz;
         dataMap = HazelcastClient.KeyValueMap;
-        codec = new JacksonCodec();
+        codec = new JacksonCodec<>(clazz);
     }
 
     public static <T> HazelMap<T> use(Class<T> clazz) {
@@ -61,7 +61,8 @@ public class HazelMap<T> {
 
     private boolean writeData(@NotNull String key, HazelMetadata data, long ttl, @NotNull TimeUnit ttlUnit, long maxIdle, @NotNull TimeUnit maxIdleUnit) {
         try {
-            String string = codec.getValueEncoder().encode(data);
+            Encoder encoder = codec.getValueEncoder();
+            String string = encoder.encode(data).toString(StandardCharsets.UTF_8);
             if (dataMap.containsKey(key)) {
                 dataMap.replace(key, string);
             } else {
