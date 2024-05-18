@@ -1,4 +1,4 @@
-package org.hazelcast.metadata;
+package org.hazelcast.schema;
 
 public enum MetadataEnum {
     Object(1),

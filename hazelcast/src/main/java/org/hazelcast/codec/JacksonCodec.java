@@ -14,10 +14,8 @@ import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import org.hazelcast.client.codec.BaseCodec;
-import org.hazelcast.client.codec.Codec;
 import org.hazelcast.client.protobuf.Decoder;
 import org.hazelcast.client.protobuf.Encoder;
-import org.hazelcast.metadata.HazelMetadata;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +47,6 @@ public class JacksonCodec<T> extends BaseCodec<T> {
             return mapObjectMapper.readValue(new ByteBufInputStream(buf), valueTypeReference);
         }
     };
-
     private Class<T> valueClass;
     private TypeReference<T> valueTypeReference;
 

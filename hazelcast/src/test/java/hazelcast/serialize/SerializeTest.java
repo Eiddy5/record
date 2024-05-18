@@ -3,11 +3,9 @@ package hazelcast.serialize;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.netty.buffer.ByteBuf;
 import org.domain.Person;
-import org.hazelcast.codec.JacksonCodec;
-import org.hazelcast.metadata.HazelMetadata;
-import org.hazelcast.metadata.MetadataEnum;
+import org.hazelcast.schema.HazelMetadata;
+import org.hazelcast.schema.MetadataEnum;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

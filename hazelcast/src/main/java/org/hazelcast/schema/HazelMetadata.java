@@ -1,17 +1,15 @@
-package org.hazelcast.metadata;
+package org.hazelcast.schema;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.hazelcast.client.protobuf.Encoder;
 import org.hazelcast.codec.JacksonCodec;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.time.OffsetDateTime;
 
-public class HazelMetadata<T> extends BaseMetadata<HazelMetadata<T>> {
+public class HazelMetadata<T> extends HazelMapSchema<HazelMetadata<T>> {
 
     private MetadataEnum type;
     private T value;
@@ -45,16 +43,10 @@ public class HazelMetadata<T> extends BaseMetadata<HazelMetadata<T>> {
     public T getValue() {
         return value;
     }
+
     public void setValue(T value) {
         this.value = value;
     }
 
-    public MetadataEnum getType() {
-        return type;
-    }
-
-    public void setType(MetadataEnum type) {
-        this.type = type;
-    }
 
 }

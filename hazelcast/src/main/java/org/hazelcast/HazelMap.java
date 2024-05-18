@@ -1,19 +1,14 @@
 package org.hazelcast;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hazelcast.query.Predicate;
-import io.netty.buffer.ByteBuf;
 import org.hazelcast.client.HazelcastClient;
-import org.hazelcast.client.codec.Codec;
 import org.hazelcast.client.protobuf.Encoder;
 import org.hazelcast.codec.JacksonCodec;
-import org.hazelcast.metadata.HazelMetadata;
+import org.hazelcast.schema.HazelMapSchema;
+import org.hazelcast.schema.HazelMetadata;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -21,20 +16,17 @@ import java.util.concurrent.TimeUnit;
 public class HazelMap<T> {
 
     private final Map<String, String> dataMap;
+    private final Map<String, HazelMapSchema<T>> schemaMap;
     private final JacksonCodec<T> codec;
 
     private HazelMap(Class<T> clazz) {
         dataMap = HazelcastClient.KeyValueMap;
+        schemaMap = HazelcastClient.SchemeMap;
         codec = new JacksonCodec<>(clazz);
     }
 
     public static <T> HazelMap<T> use(Class<T> clazz) {
         return new HazelMap<>(clazz);
-    }
-
-    public boolean query(Predicate<String, T> predicate) {
-        List<T> result = new ArrayList<>();
-        return false;
     }
 
     public T getOne(@NotNull String key) {
@@ -55,7 +47,7 @@ public class HazelMap<T> {
     }
 
     public boolean write(@NotNull String key, @NotNull List<T> values, long ttl, @NotNull TimeUnit ttlUnit, long maxIdle, @NotNull TimeUnit maxIdleUnit) {
-
+        HazelMetadata<?> ofed = HazelMetadata.Of();
         return false;
     }
 
