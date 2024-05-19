@@ -4,10 +4,9 @@ import com.hazelcast.config.*;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
-import org.hazelcast.schema.HazelMapSchema;
 
 public class HazelcastClient<T> {
-    public static final IMap<String, String> KeyValueMap;
+    public static final IMap<String, byte[]> DataMap;
     private static final String KEY_VALUE_MAP_NAME = "keyValue_map";
     private static final String SCHEME_MAP_NAME = "scheme_map";
     private static boolean a = false;
@@ -18,7 +17,7 @@ public class HazelcastClient<T> {
 
     static {
         init();
-        KeyValueMap = instance.getMap(KEY_VALUE_MAP_NAME);
+        DataMap = instance.getMap(KEY_VALUE_MAP_NAME);
     }
 
     private static void init() {

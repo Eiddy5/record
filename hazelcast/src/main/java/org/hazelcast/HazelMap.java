@@ -1,68 +1,79 @@
 package org.hazelcast;
 
-import org.hazelcast.client.HazelcastClient;
-import org.hazelcast.client.protobuf.Encoder;
+import org.hazelcast.client.codec.BaseCodec;
+import org.hazelcast.client.codec.Codec;
 import org.hazelcast.codec.JacksonCodec;
-import org.hazelcast.schema.HazelMapSchema;
-import org.hazelcast.schema.HazelMetadata;
+import org.hazelcast.schema.HazelSchema;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class HazelMap<T> {
 
-    private final Map<String, String> dataMap;
-    private final Map<String, HazelMapSchema<T>> schemaMap;
-    private final JacksonCodec<T> codec;
+    private Map<String, byte[]> dataMap;
+    private final Codec<HazelSchema> codec;
+    private final Class<T> clazz;
 
-    private HazelMap(Class<T> clazz) {
-        dataMap = HazelcastClient.KeyValueMap;
-        schemaMap = HazelcastClient.SchemeMap;
-        codec = new JacksonCodec<>(clazz);
+    private HazelMap(Class<T> clazz, Codec<HazelSchema> codec) {
+        this.clazz = clazz;
+        this.codec = codec;
+        dataMap = new HashMap<>();
     }
 
     public static <T> HazelMap<T> use(Class<T> clazz) {
-        return new HazelMap<>(clazz);
+        return new HazelMap<>(clazz, new BaseCodec<>());
     }
 
-    public T getOne(@NotNull String key) {
-        String s = dataMap.get(key);
-        return null;
-    }
-
-    public List<T> get(@NotNull String key) {
-        return null;
-    }
-
-    public T writeOne(@NotNull String key, @NotNull T value, long ttl, @NotNull TimeUnit ttlUnit, long maxIdle, @NotNull TimeUnit maxIdleUnit) {
-        return null;
-    }
-
-    public boolean write(@NotNull String key, @NotNull List<T> values) {
-        return write(key, values, 7, TimeUnit.DAYS, 7, TimeUnit.DAYS);
-    }
-
-    public boolean write(@NotNull String key, @NotNull List<T> values, long ttl, @NotNull TimeUnit ttlUnit, long maxIdle, @NotNull TimeUnit maxIdleUnit) {
-        HazelMetadata<?> ofed = HazelMetadata.Of();
-        return false;
-    }
-
-    private boolean writeData(@NotNull String key, HazelMetadata data, long ttl, @NotNull TimeUnit ttlUnit, long maxIdle, @NotNull TimeUnit maxIdleUnit) {
+    public <T> boolean write(String key, T value, long ttl, TimeUnit ttlUnit, long maxIdle, TimeUnit maxIdleUnit) {
         try {
-            Encoder encoder = codec.getValueEncoder();
-            String string = encoder.encode(data).toString(StandardCharsets.UTF_8);
-            if (dataMap.containsKey(key)) {
-                dataMap.replace(key, string);
-            } else {
-                dataMap.put(key, string);
-            }
+            HazelSchema<T> hazelData = new HazelSchema<>(value);
+            byte[] serializedData = codec.serialize(hazelData);
+            dataMap.put(key, serializedData);
             return true;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to serialize data", e);
+        }
+    }
+
+    public  T read(String key) {
+        try {
+            byte[] serializedData = dataMap.get(key);
+            if (serializedData == null) {
+                return null;
+            }
+            HazelSchema<?> hazelData = codec.deserialize(serializedData);
+            Object data = hazelData.getData();
+            return clazz.cast(data);
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException("Failed to deserialize data", e);
+        }
+    }
+
+    public <T> boolean writeList(String key, List<T> values, long ttl, TimeUnit ttlUnit, long maxIdle, TimeUnit maxIdleUnit) {
+        try {
+            HazelSchema<List<T>> hazelData = new HazelSchema<>(values);
+            byte[] serializedData = codec.serialize(hazelData);
+            dataMap.put(key, serializedData);
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to serialize data", e);
+        }
+    }
+
+    public <T> List<T> readList(String key, Class<T> type) {
+        try {
+            byte[] serializedData = dataMap.get(key);
+            if (serializedData == null) {
+                return null;
+            }
+            HazelSchema<?> hazelData = codec.deserialize(serializedData);
+            Object data = hazelData.getData();
+            return (List<T>) data;
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException("Failed to deserialize data", e);
         }
     }
 

@@ -1,16 +1,25 @@
 package org.hazelcast.client.codec;
 
-import org.hazelcast.client.protobuf.Decoder;
-import org.hazelcast.client.protobuf.Encoder;
+import org.hazelcast.schema.HazelSchema;
 
-public abstract class BaseCodec<T> implements Codec<T> {
+import java.io.*;
+
+public class BaseCodec<T> implements Codec<T>{
     @Override
-    public Decoder<T> getValueDecoder() {
-        return null;
+    public byte[] serialize(T object) throws IOException {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+            oos.writeObject(object);
+            return bos.toByteArray();
+        }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Encoder getValueEncoder() {
-        return null;
+    public T deserialize(byte[] binaryData) throws IOException, ClassNotFoundException {
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(binaryData);
+             ObjectInputStream ois = new ObjectInputStream(bis)) {
+            return (T) ois.readObject();
+        }
     }
 }
