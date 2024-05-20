@@ -1,8 +1,12 @@
 package org.hazelcast.client.codec;
 
+import com.esotericsoftware.kryo.Kryo;
 import org.hazelcast.schema.HazelSchema;
 
 import java.io.*;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class BaseCodec<T> implements Codec<T>{
     @Override

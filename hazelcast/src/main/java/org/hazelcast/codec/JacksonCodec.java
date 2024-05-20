@@ -3,14 +3,17 @@ package org.hazelcast.codec;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.hazelcast.client.codec.BaseCodec;
 import org.hazelcast.schema.HazelSchema;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 public class JacksonCodec<T> extends BaseCodec<T> {
 

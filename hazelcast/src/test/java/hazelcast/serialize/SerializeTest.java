@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +45,7 @@ public class SerializeTest {
         HazelMap<Person> hazelMap = HazelMap.use(Person.class);
 
         Person person = new Person("John", 30);
-        hazelMap.write("personKey", person, 1, TimeUnit.HOURS, 1, TimeUnit.HOURS);
+        boolean b1 = hazelMap.write("personKey", person, 1, TimeUnit.HOURS, 1, TimeUnit.HOURS);
 
         Person retrievedPerson = hazelMap.read("personKey");
         Assertions.assertNotNull(retrievedPerson);
@@ -52,7 +53,7 @@ public class SerializeTest {
         Assertions.assertEquals(30, retrievedPerson.getAge());
 
         List<Person> personList = Arrays.asList(new Person("Alice", 25), new Person("Bob", 28));
-        hazelMap.writeList("personListKey", personList, 1, TimeUnit.HOURS, 1, TimeUnit.HOURS);
+        boolean b2 = hazelMap.writeList("personListKey", personList, 1, TimeUnit.HOURS, 1, TimeUnit.HOURS);
 
         List<Person> retrievedPersonList = hazelMap.readList("personListKey", Person.class);
         Assertions.assertNotNull(retrievedPersonList);

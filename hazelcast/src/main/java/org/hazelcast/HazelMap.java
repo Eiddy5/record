@@ -1,12 +1,13 @@
 package org.hazelcast;
 
+import com.hazelcast.map.IMap;
+import org.hazelcast.client.HazelcastClient;
 import org.hazelcast.client.codec.BaseCodec;
 import org.hazelcast.client.codec.Codec;
-import org.hazelcast.codec.JacksonCodec;
 import org.hazelcast.schema.HazelSchema;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -14,13 +15,13 @@ import java.util.concurrent.TimeUnit;
 public class HazelMap<T> {
 
     private Map<String, byte[]> dataMap;
-    private final Codec<HazelSchema> codec;
+    private final Codec<HazelSchema<?>> codec;
     private final Class<T> clazz;
 
-    private HazelMap(Class<T> clazz, Codec<HazelSchema> codec) {
+    private HazelMap(Class<T> clazz, Codec<HazelSchema<?>> codec) {
         this.clazz = clazz;
         this.codec = codec;
-        dataMap = new HashMap<>();
+        dataMap = HazelcastClient.DataMap;
     }
 
     public static <T> HazelMap<T> use(Class<T> clazz) {

@@ -4,21 +4,28 @@ import java.io.Serializable;
 
 public class HazelSchema<T> implements Serializable {
 
-    private String key;
+    private boolean isList;
     private T data;
-    public HazelSchema(T data) {
-        this.data = data;
-    }
 
     public HazelSchema() {
     }
 
-    public String getKey() {
-        return key;
+    public HazelSchema(T data, boolean isList) {
+        this.isList = isList;
+        this.data = data;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public HazelSchema(T data) {
+        this.data = data;
+        this.isList = false;
+    }
+
+    public boolean isList() {
+        return isList;
+    }
+
+    public void setList(boolean list) {
+        isList = list;
     }
 
     public T getData() {
