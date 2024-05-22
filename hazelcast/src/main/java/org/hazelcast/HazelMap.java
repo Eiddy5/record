@@ -7,6 +7,7 @@ import org.hazelcast.codec.JacksonCodec;
 import org.hazelcast.schema.HazelSchema;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -60,18 +61,24 @@ public class HazelMap<T> {
             return dataMap.replace(key, data) != null;
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
 
     public boolean writeList(String key, List<T> values) {
         return writeList(key, values, 7, TimeUnit.DAYS);
     }
 
     public boolean writeList(String key, List<T> values, int ttl, TimeUnit ttlUnit) {
-        boolean b = writeList(key, values, ttl, ttlUnit, 7, TimeUnit.DAYS);
-        return b;
+        return writeList(key, values, ttl, ttlUnit, 7, TimeUnit.DAYS);
+    }
     public boolean writeList(@NotNull String key, List<T> values, @NotNull Integer ttl, @NotNull TimeUnit ttlUnit, @NotNull Integer maxIdle, @NotNull TimeUnit maxIdleUnit) {
-        String data = codec.serialize(HazelSchema.Of(values, true));
-        dataMap.put(key, data, ttl, ttlUnit, maxIdle, maxIdleUnit);
-        return true;
+        try {
+            String data = codec.serialize(HazelSchema.Of(values, true));
+            dataMap.put(key, data, ttl, ttlUnit, maxIdle, maxIdleUnit);
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to serialize data", e);
+        }
     }
 
     public T read(@NotNull String key) {
