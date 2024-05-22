@@ -10,6 +10,14 @@ public class HazelSchema<T> implements Serializable {
     public HazelSchema() {
     }
 
+    public static <T> HazelSchema<T> Of(T data, boolean isList) {
+        return new HazelSchema<>(data, isList);
+    }
+
+    public static <T> HazelSchema<T> Of(T data) {
+        return Of(data, false);
+    }
+
     public HazelSchema(T data, boolean isList) {
         this.isList = isList;
         this.data = data;
