@@ -3,14 +3,16 @@ package org.hazelcast.codec;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.hazelcast.client.codec.BaseCodec;
-import org.hazelcast.schema.HazelSchema;
+import org.hazelcast.schema.HazelMapSchema;
 
 import java.io.IOException;
+import java.util.List;
 
 public class JacksonCodec<T> extends BaseCodec<T> {
 
@@ -37,12 +39,16 @@ public class JacksonCodec<T> extends BaseCodec<T> {
     }
 
     @Override
-    public byte[] serialize(T object) throws IOException {
+    public byte[] serialize(HazelMapSchema object) throws IOException {
         return objectMapper.writeValueAsBytes(object);
     }
 
+    public <T> T deserialize(byte[] binaryData, Class<T> type) throws IOException {
+        return objectMapper.readValue(binaryData, type);
+    }
+
     @Override
-    public T deserialize(byte[] binaryData) throws IOException {
-        return (T) objectMapper.readValue(binaryData, HazelSchema.class);
+    public HazelMapSchema deserialize(byte[] binaryData) throws IOException {
+        return objectMapper.readValue(binaryData, HazelMapSchema.class);
     }
 }

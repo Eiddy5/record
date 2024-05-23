@@ -1,6 +1,5 @@
 package org.hazelcast;
 
-import org.hazelcast.client.codec.BaseCodec;
 import org.hazelcast.client.codec.Codec;
 import org.hazelcast.codec.JacksonCodec;
 import org.hazelcast.schema.HazelSchema;
@@ -24,21 +23,22 @@ public class HazelMap<T> {
     }
 
     public static <T> HazelMap<T> use(Class<T> clazz) {
-        return new HazelMap<>(clazz, new BaseCodec<>());
+        return new HazelMap<>(clazz, new JacksonCodec<>());
     }
 
     public <T> boolean write(String key, T value, long ttl, TimeUnit ttlUnit, long maxIdle, TimeUnit maxIdleUnit) {
         try {
-            HazelSchema<T> hazelData = new HazelSchema<>(value);
+            HazelSchema hazelData = new HazelSchema(value);
             byte[] serializedData = codec.serialize(hazelData);
             dataMap.put(key, serializedData);
+            // Handle TTL and max idle time as needed
             return true;
         } catch (IOException e) {
             throw new RuntimeException("Failed to serialize data", e);
         }
     }
 
-    public  T read(String key) {
+    public <T> T read(String key, Class<T> type) {
         try {
             byte[] serializedData = dataMap.get(key);
             if (serializedData == null) {
@@ -46,7 +46,7 @@ public class HazelMap<T> {
             }
             HazelSchema<?> hazelData = codec.deserialize(serializedData);
             Object data = hazelData.getData();
-            return clazz.cast(data);
+            return type.cast(data);
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException("Failed to deserialize data", e);
         }
@@ -54,9 +54,10 @@ public class HazelMap<T> {
 
     public <T> boolean writeList(String key, List<T> values, long ttl, TimeUnit ttlUnit, long maxIdle, TimeUnit maxIdleUnit) {
         try {
-            HazelSchema<List<T>> hazelData = new HazelSchema<>(values);
+            HazelData<List<T>> hazelData = new HazelData<>(values);
             byte[] serializedData = codec.serialize(hazelData);
             dataMap.put(key, serializedData);
+            // Handle TTL and max idle time as needed
             return true;
         } catch (IOException e) {
             throw new RuntimeException("Failed to serialize data", e);
@@ -69,7 +70,7 @@ public class HazelMap<T> {
             if (serializedData == null) {
                 return null;
             }
-            HazelSchema<?> hazelData = codec.deserialize(serializedData);
+            HazelData<?> hazelData = codec.deserialize(serializedData);
             Object data = hazelData.getData();
             return (List<T>) data;
         } catch (IOException | ClassNotFoundException e) {

@@ -1,16 +1,14 @@
 package org.hazelcast.schema;
 
-import java.io.Serializable;
-
-public class HazelSchema<T> implements Serializable {
+public class HazelMapSchema {
 
     private String key;
-    private T data;
-    public HazelSchema(T data) {
+    private Object data;
+    public HazelMapSchema(Object data) {
         this.data = data;
     }
 
-    public HazelSchema() {
+    public HazelMapSchema() {
     }
 
     public String getKey() {
@@ -21,11 +19,11 @@ public class HazelSchema<T> implements Serializable {
         this.key = key;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

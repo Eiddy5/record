@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.domain.Person;
 import org.hazelcast.HazelMap;
 import org.hazelcast.codec.JacksonCodec;
-import org.hazelcast.schema.HazelSchema;
+import org.hazelcast.schema.HazelMapSchema;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,7 @@ public class SerializeTest {
 
     @Test
     public void testJackCodec() throws IOException {
-        HazelSchema schema = new HazelSchema(List.of(new Person()));
+        HazelMapSchema schema = new HazelMapSchema(List.of(new Person()));
         JacksonCodec<Object> codec = new JacksonCodec<>();
         byte[] serialize = codec.serialize(schema);
         System.out.println(Arrays.toString(serialize));
