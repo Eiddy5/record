@@ -1,13 +1,8 @@
 package hazelcast.serialize;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.domain.IdName;
 import org.domain.NameValue;
-import org.hazelcast.client.codec.Codec;
 import org.hazelcast.codec.JacksonCodec;
 import org.junit.jupiter.api.Test;
 
