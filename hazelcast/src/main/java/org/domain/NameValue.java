@@ -4,6 +4,8 @@ public class NameValue {
     public String name;
     public String value;
 
+    public NameValue() {
+    }
 
     public static NameValue Of(String name, String value) {
         return new NameValue(name, value);

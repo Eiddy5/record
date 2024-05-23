@@ -8,6 +8,9 @@ public class IdName {
         return new IdName(id, name);
     }
 
+    public IdName() {
+    }
+
     public IdName(String id, String name) {
         this.id = id;
         this.name = name;

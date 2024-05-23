@@ -3,23 +3,19 @@ package org.hazelcast.codec;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import org.hazelcast.client.codec.Codec;
-import org.hazelcast.schema.HazelSchema;
 
 import java.io.IOException;
 
 public class JacksonCodec<T> implements Codec<T> {
 
 
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper instance;
 
     public JacksonCodec() {
-        this.objectMapper = new ObjectMapper();
-        init(objectMapper);
+        this.instance = new ObjectMapper();
+        init(instance);
     }
 
     protected void init(ObjectMapper objectMapper) {
@@ -37,13 +33,13 @@ public class JacksonCodec<T> implements Codec<T> {
     }
 
     @Override
-    public String serialize(T object) throws IOException {
-        return objectMapper.writeValueAsString(object);
+    public String serialize(Object object) throws IOException {
+        return instance.writeValueAsString(object);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public T deserialize(String in) throws IOException {
-        return (T) objectMapper.readValue(in, HazelSchema.class);
+    public T deserialize(String in, Class<T> clazz) throws IOException {
+        JsonNode tree = instance.readTree(in);
+        return instance.treeToValue(tree, clazz);
     }
 }

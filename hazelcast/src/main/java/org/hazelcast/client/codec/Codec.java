@@ -4,7 +4,7 @@ package org.hazelcast.client.codec;
 import java.io.IOException;
 
 public interface Codec<T> {
-    String serialize(T object) throws IOException;
+    String serialize(Object object) throws IOException;
 
-    T deserialize(String binaryData) throws IOException, ClassNotFoundException;
+    T deserialize(String in, Class<T> clazz) throws IOException, ClassNotFoundException;
 }
