@@ -3,25 +3,19 @@ package org.hazelcast.codec;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.hazelcast.client.codec.BaseCodec;
-import org.hazelcast.schema.HazelMapSchema;
+import com.fasterxml.jackson.databind.*;
+import org.hazelcast.client.codec.Codec;
 
 import java.io.IOException;
-import java.util.List;
 
-public class JacksonCodec<T> extends BaseCodec<T> {
+public class JacksonCodec<T> implements Codec<T> {
 
 
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper instance;
 
     public JacksonCodec() {
-        this.objectMapper = new ObjectMapper();
-        init(objectMapper);
+        this.instance = new ObjectMapper();
+        init(instance);
     }
 
     protected void init(ObjectMapper objectMapper) {
@@ -39,16 +33,13 @@ public class JacksonCodec<T> extends BaseCodec<T> {
     }
 
     @Override
-    public byte[] serialize(HazelMapSchema object) throws IOException {
-        return objectMapper.writeValueAsBytes(object);
-    }
-
-    public <T> T deserialize(byte[] binaryData, Class<T> type) throws IOException {
-        return objectMapper.readValue(binaryData, type);
+    public String serialize(Object object) throws IOException {
+        return instance.writeValueAsString(object);
     }
 
     @Override
-    public HazelMapSchema deserialize(byte[] binaryData) throws IOException {
-        return objectMapper.readValue(binaryData, HazelMapSchema.class);
+    public T deserialize(String in, Class<T> clazz) throws IOException {
+        JsonNode tree = instance.readTree(in);
+        return instance.treeToValue(tree, clazz);
     }
 }

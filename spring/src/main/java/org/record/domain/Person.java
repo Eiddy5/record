@@ -4,26 +4,17 @@ package org.record.domain;
 import com.esotericsoftware.kryo.Kryo;
 
 public class Person {
-    private Integer id;
     private String name;
-    private Integer age;
-    private String address;
-    private String phone;
+    private int age;
 
     public Person() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setAge(Integer age) {
+    public Person(String name, int age) {
+        this.name = name;
         this.age = age;
     }
+
 
     public String getName() {
         return name;
@@ -39,22 +30,6 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
 }

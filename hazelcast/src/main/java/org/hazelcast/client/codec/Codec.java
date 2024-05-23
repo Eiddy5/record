@@ -1,11 +1,10 @@
 package org.hazelcast.client.codec;
 
 
-import org.hazelcast.schema.HazelSchema;
-
 import java.io.IOException;
 
 public interface Codec<T> {
-    byte[] serialize(HazelSchema object) throws IOException;
-    HazelSchema deserialize(byte[] binaryData) throws IOException, ClassNotFoundException;
+    String serialize(Object object) throws IOException;
+
+    T deserialize(String in, Class<T> clazz) throws IOException, ClassNotFoundException;
 }

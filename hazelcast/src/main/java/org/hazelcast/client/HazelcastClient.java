@@ -5,10 +5,9 @@ import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 
-public class HazelcastClient<T> {
-    public static final IMap<String, byte[]> DataMap;
+public class HazelcastClient {
+    public static final IMap<String, String> DataMap;
     private static final String KEY_VALUE_MAP_NAME = "keyValue_map";
-    private static final String SCHEME_MAP_NAME = "scheme_map";
     private static boolean a = false;
     private static HazelcastInstance instance;
 
