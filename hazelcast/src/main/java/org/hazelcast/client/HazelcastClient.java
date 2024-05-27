@@ -4,26 +4,33 @@ import com.hazelcast.config.*;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
+import com.hazelcast.sql.SqlService;
+import org.x7.json.JsonObject;
+import org.x7.paas.registry.MeshDict;
 
 public class HazelcastClient {
     public static final IMap<String, String> DataMap;
-    private static final String KEY_VALUE_MAP_NAME = "keyValue_map";
+    private static final String DATA_MAP = "data_map";
+    private static final String ORIGIN_MAP = "origin_map";
     private static boolean a = false;
     private static HazelcastInstance instance;
 
-    private HazelcastClient() {
-    }
-
     static {
         init();
-        DataMap = instance.getMap(KEY_VALUE_MAP_NAME);
+        DataMap = instance.getMap(DATA_MAP);
     }
 
-    private static void init() {
+    public static void start() {
+        init();
+    }
+
+    protected static void init() {
         if (!a) {
             a = true;
             Config config = new Config();
-            config.setClusterName("dev");
+            JsonObject setting = MeshDict.use().readConfig("hazelcast", "default");
+            String clusterName = setting.getString("cluster_name", "okr");
+            config.setClusterName(clusterName);
             config.setProperty("hazelcast.logging.type", "log4j");
             config.getJetConfig()
                     .setEnabled(true)
@@ -49,5 +56,13 @@ public class HazelcastClient {
             config.addMapConfig(defaultMap);
             instance = Hazelcast.newHazelcastInstance(config);
         }
+    }
+
+    public static <K, V> IMap<K, V> getMap() {
+        return instance.getMap(ORIGIN_MAP);
+    }
+
+    public static SqlService getSqlService() {
+        return instance.getSql();
     }
 }
