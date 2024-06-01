@@ -9,4 +9,5 @@ include 'spring'
 include 'httpServer'
 include 'dubbo'
 include 'json'
+include 'cache'
 
