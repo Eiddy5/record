@@ -12,11 +12,9 @@
             <option value="$PROJECT_DIR$/cache" />
             <option value="$PROJECT_DIR$/db" />
             <option value="$PROJECT_DIR$/dubbo" />
-            <option value="$PROJECT_DIR$/hazelcast" />
             <option value="$PROJECT_DIR$/httpServer" />
             <option value="$PROJECT_DIR$/json" />
             <option value="$PROJECT_DIR$/netty" />
-            <option value="$PROJECT_DIR$/pptEngine" />
             <option value="$PROJECT_DIR$/spring" />
           </set>
         </option>

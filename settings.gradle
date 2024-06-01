@@ -1,10 +1,8 @@
 rootProject.name = 'record'
 
 
-include 'hazelcast'
 include 'db'
 include 'netty'
-include 'pptEngine'
 include 'spring'
 include 'httpServer'
 include 'dubbo'
