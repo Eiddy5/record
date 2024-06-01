@@ -1,10 +1,8 @@
 package org.hazelcast.client.codec;
 
+public interface Codec {
 
-import java.io.IOException;
+    String serialize(Object value);
 
-public interface Codec<T> {
-    String serialize(Object object) throws IOException;
-
-    T deserialize(String in, Class<T> clazz) throws IOException, ClassNotFoundException;
+   Object deserialize(String json, Class<?> clazz);
 }
