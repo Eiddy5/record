@@ -10,8 +10,10 @@ import org.apache.ignite.cache.CacheWriteSynchronizationMode;
 import org.apache.ignite.cache.PartitionLossPolicy;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
+import org.apache.ignite.events.EventType;
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
 import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder;
+import org.ignite.listener.GlobalMemoryListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,22 +64,7 @@ public class IgniteClient {
             spi.setIpFinder(ipFinder);
             cfg.setDiscoverySpi(spi);
             ignite = Ignition.start(cfg);
-            new Thread(() -> {
-                while (true) {
-                    try {
-                        Thread.sleep(3000);
-                        StringBuilder builder = new StringBuilder("【");
-                        ignite.cluster().nodes().forEach(node -> {
-                            builder.append("id:").append(node.id()).append("  ").append("address:").append(node.addresses());
-                        });
-                        builder.append("】");
-                        logger.info("ignite cluster {} ", builder);
-                        logger.info("ignite cluster size {}", ignite.cluster().nodes().size());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+            ignite.events().localListen(new GlobalMemoryListener(), EventType.EVT_CACHE_OBJECT_PUT, EventType.EVT_CACHE_OBJECT_REMOVED, EventType.EVT_CACHE_OBJECT_EXPIRED);
         }
     }
 
