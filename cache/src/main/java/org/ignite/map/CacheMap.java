@@ -1,67 +1,45 @@
 package org.ignite.map;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.ignite.IgniteCache;
-import org.codec.JsonFactory;
-import org.jetbrains.annotations.NotNull;
+import org.apache.ignite.cache.CacheEntry;
+import org.apache.ignite.cache.query.*;
+import org.apache.ignite.lang.IgniteClosure;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
-public class CacheMap<K, V> {
-    private final IgniteCache<String, String> cache;
-    private final ObjectMapper mapper = JsonFactory.getObjectMapper();
+public interface CacheMap<K, V> {
+    <R> QueryCursor<R> query(Query<R> qry);
 
-    public CacheMap(IgniteCache<String, String> cache) {
-        this.cache = cache;
-    }
+    FieldsQueryCursor<List<?>> query(SqlFieldsQuery qry);
 
-    public int size() {
-        return cache.size();
-    }
+    <T, R> QueryCursor<R> query(Query<T> qry, IgniteClosure<T, R> transformer);
 
-    public boolean containsKey(K key) {
-        String k = JsonFactory.ToJsonContent(key);
-        return cache.containsKey(k);
-    }
+    V get(K key);
 
-    public V get(K key) {
-        String k = JsonFactory.ToJsonContent(key);
-        String val = cache.get(k);
-        try {
-            return mapper.readValue(val, new TypeReference<>() {
-            });
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    CacheEntry<K, V> getEntry(K key);
 
-    public V put(K key, V value) {
-        return null;
-    }
+    Map<K, V> getAll(Set<? extends K> keys);
 
-    public V remove(Object key) {
-        return null;
-    }
+    Collection<CacheEntry<K, V>> getEntries(Set<? extends K> keys);
 
-    public void putAll(@NotNull Map<? extends K, ? extends V> m) {
+    V getIfAbsent(K k, Function<? super K, ? extends V> logic);
 
-    }
+    V getIfPresent(K k, Function<? super K, ? extends V> logic);
 
-    public void clear() {
+    void put(K key, V val);
 
-    }
+    void putAll(Map<? extends K, ? extends V> map);
 
-    public Set<K> keySet() {
-        return Set.of();
-    }
+    boolean remove(K key);
 
-    public Collection<V> values() {
-        return List.of();
-    }
+    boolean replace(K key, V val);
 
+    void removeAll(Set<? extends K> keys);
+
+    void removeAll();
+
+    void destroy();
 }
