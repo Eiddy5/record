@@ -1,12 +1,5 @@
-package redis.config;
+package redisson.config;
 
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisCluster;
-import redis.clients.jedis.JedisPoolConfig;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class JedisConfig {
     public static void main(String[] args) {
