@@ -1,6 +1,9 @@
 package org.domain;
 
-public class IdName {
+import java.io.*;
+
+public class IdName implements Serializable {
+    private static final long serialVersionUID = 1L;
     public String id;
     public String name;
 
