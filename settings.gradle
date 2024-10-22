@@ -8,4 +8,5 @@ include 'httpServer'
 include 'dubbo'
 include 'json'
 include 'cache'
+include 'demo'
 
