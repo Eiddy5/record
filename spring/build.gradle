@@ -13,6 +13,7 @@ version = '1.0-SNAPSHOT'
 dependencies {
     implementation project(':cache')
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     // https://mvnrepository.com/artifact/com.esotericsoftware/kryo
     implementation group: 'com.esotericsoftware', name: 'kryo', version: '5.3.0'
 
