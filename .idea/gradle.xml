@@ -4,6 +4,8 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
@@ -16,6 +18,7 @@
             <option value="$PROJECT_DIR$/json" />
             <option value="$PROJECT_DIR$/netty" />
             <option value="$PROJECT_DIR$/spring" />
+            <option value="$PROJECT_DIR$/table" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

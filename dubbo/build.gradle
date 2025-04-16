@@ -1,9 +1,0 @@
-plugins {
-    id 'java'
-}
-
-group = 'org.dubbo'
-version = '1.0-SNAPSHOT'
-
-dependencies {
-}

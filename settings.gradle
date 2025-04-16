@@ -9,4 +9,5 @@ include 'dubbo'
 include 'json'
 include 'cache'
 include 'demo'
+include 'table'
 
