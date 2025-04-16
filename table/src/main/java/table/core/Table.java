@@ -47,17 +47,60 @@ public class Table {
         Cell root = cells[minX][minY];
         root.setRolSpan(maxX - minX + 1);
         root.setColSpan(maxY - minY + 1);
+
+
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
                 Cell cell = cells[i][j];
                 if (cell.equals(root)) {
                     continue;
                 }
+                if (!cell.isDisplay()){
+
+                }
                 cell.setDisplay(false);
                 cell.setRoot(root);
             }
         }
     }
+
+    private Selection confirmSelection(Selection selection){
+
+        int minX = selection.getMinX();
+        int minY = selection.getMinY();
+        if (minX < 0 || minY < 0) {
+            throw new IllegalArgumentException("x or y is out of bounds");
+        }
+        int maxX = selection.getMaxX();
+        int maxY = selection.getMaxY();
+        if (maxX >= xLength || maxY >= yLength) {
+            throw new IllegalArgumentException("x or y is out of bounds");
+        }
+
+        int tempMinX = minX;
+        int tempMinY = minY;
+        int tempMaxX = maxX;
+        int tempMaxY = maxY;
+
+
+        Cell root = cells[minX][minY];
+
+        for (int i = minX; i <= maxX; i++) {
+            for (int j = minY; j <= maxY; j++) {
+                Cell cell = cells[i][j];
+                if (cell.equals(root)) {
+                    continue;
+                }
+                if (!cell.isDisplay()){
+
+                }
+                cell.setDisplay(false);
+                cell.setRoot(root);
+            }
+        }
+
+    }
+
 
 
     @Override
