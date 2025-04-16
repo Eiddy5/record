@@ -21,3 +21,5 @@ out/
 /.gradle/
 
 .gitignore
+/.gradle/
+/.idea/
