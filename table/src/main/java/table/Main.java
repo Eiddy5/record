@@ -10,13 +10,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        TableMerger tableMerger = new TableMerger();
 
         Table table = TableFactory.create(4, 4);
 
         Selection selection = new Selection(0, 0, 1, 1);
 
-        tableMerger.merge(table, selection);
+
+        table.merge(selection);
+
+
+        Selection selection1 = new Selection(1, 2, 2, 1);
+
+        table.merge(selection1);
 
         System.out.println(table);
     }

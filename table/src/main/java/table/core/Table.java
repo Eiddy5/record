@@ -34,29 +34,19 @@ public class Table {
 
 
     public void merge(Selection selection) {
+        confirmSelection(selection);
         int minX = selection.getMinX();
         int minY = selection.getMinY();
-        if (minX < 0 || minY < 0) {
-            throw new IllegalArgumentException("x or y is out of bounds");
-        }
         int maxX = selection.getMaxX();
         int maxY = selection.getMaxY();
-        if (maxX >= xLength || maxY >= yLength) {
-            throw new IllegalArgumentException("x or y is out of bounds");
-        }
         Cell root = cells[minX][minY];
         root.setRolSpan(maxX - minX + 1);
         root.setColSpan(maxY - minY + 1);
-
-
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
                 Cell cell = cells[i][j];
                 if (cell.equals(root)) {
                     continue;
-                }
-                if (!cell.isDisplay()){
-
                 }
                 cell.setDisplay(false);
                 cell.setRoot(root);
@@ -64,11 +54,16 @@ public class Table {
         }
     }
 
-    private Selection confirmSelection(Selection selection){
+    private void confirmSelection(Selection selection) {
+        int startX = selection.getMinX();
+        int startY = selection.getMinY();
+        int endX = selection.getMaxX();
+        int endY = selection.getMaxY();
+
 
         int minX = selection.getMinX();
         int minY = selection.getMinY();
-        if (minX < 0 || minY < 0) {
+        if (startX < 0 || startY < 0) {
             throw new IllegalArgumentException("x or y is out of bounds");
         }
         int maxX = selection.getMaxX();
@@ -76,31 +71,32 @@ public class Table {
         if (maxX >= xLength || maxY >= yLength) {
             throw new IllegalArgumentException("x or y is out of bounds");
         }
-
-        int tempMinX = minX;
-        int tempMinY = minY;
-        int tempMaxX = maxX;
-        int tempMaxY = maxY;
-
-
         Cell root = cells[minX][minY];
-
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
                 Cell cell = cells[i][j];
-                if (cell.equals(root)) {
-                    continue;
+                if (cell.isDisplay()) {
+                    if (cell.equals(root)) {
+                        continue;
+                    }
+                } else {
+                    // 需要扩大范围
+                    Cell displayRoot = cell.getRoot();
+                    if (displayRoot != null) {
+                        startX = Math.min(startX, displayRoot.getStartX());
+                        startY = Math.min(startY, displayRoot.getStartY());
+                        endX = Math.max(endX, displayRoot.getEndX());
+                        endY = Math.max(endY, displayRoot.getEndY());
+                    }
                 }
-                if (!cell.isDisplay()){
-
-                }
-                cell.setDisplay(false);
-                cell.setRoot(root);
             }
         }
+        selection.setStartX(startX);
+        selection.setStartY(startY);
+        selection.setEndX(endX);
+        selection.setEndY(endY);
 
     }
-
 
 
     @Override

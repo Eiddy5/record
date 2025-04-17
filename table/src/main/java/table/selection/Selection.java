@@ -1,9 +1,10 @@
 package table.selection;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 @AllArgsConstructor
 public class Selection {
     private int startX;
