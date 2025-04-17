@@ -21,6 +21,7 @@ public class Cell {
         this.colSpan = 0;
         this.root = null;
     }
+
     @JsonIgnore
     public int getStartX() {
         if (root == null) {
@@ -29,6 +30,7 @@ public class Cell {
             return root.getStartX();
         }
     }
+
     @JsonIgnore
     public int getStartY() {
         if (root == null) {
@@ -56,6 +58,16 @@ public class Cell {
         }
     }
 
+    public boolean isMerged() {
+        return !display || rolSpan != 0 || colSpan != 0;
+    }
+
+    public Cell getRoot() {
+        if (root == null) {
+            return this;
+        }
+        return root;
+    }
 
     @Override
     public String toString() {

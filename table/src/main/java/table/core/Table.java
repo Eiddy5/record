@@ -75,11 +75,7 @@ public class Table {
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
                 Cell cell = cells[i][j];
-                if (cell.isDisplay()) {
-                    if (cell.equals(root)) {
-                        continue;
-                    }
-                } else {
+                if (cell.isMerged()) {
                     // 需要扩大范围
                     Cell displayRoot = cell.getRoot();
                     if (displayRoot != null) {
@@ -104,7 +100,7 @@ public class Table {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < xLength; i++) {
             for (int j = 0; j < yLength; j++) {
-                str.append(JsonObject.from(cells[i][j]));
+                str.append(String.valueOf(cells[i][j].isDisplay()).charAt(0)).append(" ");
             }
             str.append("\n");
         }
