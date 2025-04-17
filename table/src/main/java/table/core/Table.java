@@ -71,12 +71,10 @@ public class Table {
         if (maxX >= xLength || maxY >= yLength) {
             throw new IllegalArgumentException("x or y is out of bounds");
         }
-        Cell root = cells[minX][minY];
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
                 Cell cell = cells[i][j];
                 if (cell.isMerged()) {
-                    // 需要扩大范围
                     Cell displayRoot = cell.getRoot();
                     if (displayRoot != null) {
                         startX = Math.min(startX, displayRoot.getStartX());

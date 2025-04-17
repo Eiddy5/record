@@ -1,6 +1,5 @@
 package table;
 
-import table.core.TableMerger;
 import table.core.Table;
 import table.core.TableFactory;
 import table.selection.Selection;
