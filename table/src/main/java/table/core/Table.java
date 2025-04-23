@@ -50,14 +50,12 @@ public class Table {
         do {
             changed = false;
             adjusted.normalize();
-            // 检查当前选区内的所有单元格
             for (int r = adjusted.getMinRow(); r <= adjusted.getMaxRow(); r++) {
                 for (int c = adjusted.getMinCol(); c <= adjusted.getMaxCol(); c++) {
                     Cell cell = grid[r][c];
                     if (cell.isMerged()) {
                         Cell master = cell.getMater();
                         if (!adjusted.containsMerge(master)) {
-                            // 扩展选区以包含整个合并区域
                             adjusted.adjust(master.getStartRow(), master.getStartCol());
                             adjusted.adjust(master.getEndRow(), master.getEndCol());
                             changed = true;
@@ -72,7 +70,6 @@ public class Table {
     }
 
 
-    // 合并当前选区
     public void mergeArea(Selection selection) {
 
         Cell master = grid[selection.getStartRow()][selection.getStartCol()];
