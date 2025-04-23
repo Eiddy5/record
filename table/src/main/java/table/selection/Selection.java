@@ -13,25 +13,22 @@ public class Selection {
     private int endCol;
 
 
+    public void normalize(){
+        int minRow = Math.min(startRow, endRow);
+        int minCol = Math.min(startCol, endCol);
+        int maxRow = Math.max(startRow, endRow);
+        int maxCol = Math.max(startCol, endCol);
+        startRow = minRow;
+        startCol = minCol;
+        endRow = maxRow;
+        endCol = maxCol;
+    }
+
     public void adjust(int row, int col) {
-        adjust();
         this.startRow = Math.min(this.startRow, row);
         this.startCol = Math.min(this.startCol, col);
         this.endRow = Math.max(this.endRow, row);
         this.endCol = Math.max(this.endCol, col);
-    }
-
-    private void adjust() {
-        if (startRow > endRow) {
-            int temp = startRow;
-            startRow = endRow;
-            endRow = temp;
-        }
-        if (startCol > endCol) {
-            int temp = startCol;
-            startCol = endCol;
-            endCol = temp;
-        }
     }
 
 
@@ -47,7 +44,6 @@ public class Selection {
     }
 
     public int getMaxRow() {
-        // todo 有问题
         return Math.max(startRow, endRow);
     }
 
@@ -57,5 +53,9 @@ public class Selection {
 
     public int getMaxCol() {
         return Math.max(startCol, endCol);
+    }
+
+    public Selection copy() {
+        return new Selection(startRow, startCol, endRow, endCol);
     }
 }

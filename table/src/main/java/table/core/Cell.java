@@ -13,7 +13,7 @@ public class Cell {
     private int rowSpan;
     private int colSpan;
     private boolean display;
-    private Cell root;
+    private Cell mater;
 
     public Cell(int row, int col) {
         this.row = row;
@@ -32,14 +32,14 @@ public class Cell {
 
     public void slave(Cell master) {
         this.display = false;
-        this.root = master;
+        this.mater = master;
         this.rowSpan = 1;
         this.colSpan = 1;
     }
 
     public void reset() {
         this.display = true;
-        this.root = null;
+        this.mater = null;
         this.colSpan = 1;
         this.rowSpan = 1;
     }
@@ -47,37 +47,37 @@ public class Cell {
 
     @JsonIgnore
     public int getStartRow() {
-        if (root == null) {
+        if (mater == null) {
             return row ;
         } else {
-            return root.getStartRow();
+            return mater.getStartRow();
         }
     }
 
     @JsonIgnore
     public int getStartCol() {
-        if (root == null) {
+        if (mater == null) {
             return col ;
         } else {
-            return root.getStartCol();
+            return mater.getStartCol();
         }
     }
 
     @JsonIgnore
     public int getEndRow() {
-        if (root == null) {
-            return row + colSpan -1;
+        if (mater == null) {
+            return row + rowSpan -1;
         } else {
-            return root.getEndRow();
+            return mater.getEndRow();
         }
     }
 
     @JsonIgnore
     public int getEndCol() {
-        if (root == null) {
-            return col + rowSpan -1;
+        if (mater == null) {
+            return col + colSpan -1;
         } else {
-            return root.getEndCol();
+            return mater.getEndCol();
         }
     }
 
@@ -85,11 +85,11 @@ public class Cell {
         return !display || rowSpan != 1 || colSpan != 1;
     }
 
-    public Cell getRoot() {
-        if (root == null) {
+    public Cell getMater() {
+        if (mater == null) {
             return this;
         }
-        return root;
+        return mater;
     }
 
     @Override
