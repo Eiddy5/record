@@ -4,62 +4,85 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import json.JsonObject;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 public class Cell {
-    private int x;
-    private int y;
-    private int rolSpan;
+    private int row;
+    private int col;
+    private int rowSpan;
     private int colSpan;
     private boolean display;
     private Cell root;
 
-    public Cell(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Cell(int row, int col) {
+        this.row = row;
+        this.col = col;
         this.display = true;
-        this.rolSpan = 0;
-        this.colSpan = 0;
+        this.rowSpan = 1;
+        this.colSpan = 1;
+    }
+
+
+    public void master(int startRow, int startCol, int endRow, int endCol) {
+        this.display = true;
+        this.rowSpan = endRow - startRow + 1;
+        this.colSpan = endCol - startCol + 1;
+    }
+
+    public void slave(Cell master) {
+        this.display = false;
+        this.root = master;
+        this.rowSpan = 1;
+        this.colSpan = 1;
+    }
+
+    public void reset() {
+        this.display = true;
         this.root = null;
+        this.colSpan = 1;
+        this.rowSpan = 1;
     }
 
+
     @JsonIgnore
-    public int getStartX() {
+    public int getStartRow() {
         if (root == null) {
-            return x;
+            return row ;
         } else {
-            return root.getStartX();
+            return root.getStartRow();
         }
     }
 
     @JsonIgnore
-    public int getStartY() {
+    public int getStartCol() {
         if (root == null) {
-            return y;
+            return col ;
         } else {
-            return root.getStartY();
+            return root.getStartCol();
         }
     }
 
     @JsonIgnore
-    public int getEndX() {
+    public int getEndRow() {
         if (root == null) {
-            return x + colSpan - 1;
+            return row + colSpan -1;
         } else {
-            return root.getEndX();
+            return root.getEndRow();
         }
     }
 
     @JsonIgnore
-    public int getEndY() {
+    public int getEndCol() {
         if (root == null) {
-            return y + rolSpan - 1;
+            return col + rowSpan -1;
         } else {
-            return root.getEndY();
+            return root.getEndCol();
         }
     }
 
     public boolean isMerged() {
-        return !display || rolSpan != 0 || colSpan != 0;
+        return !display || rowSpan != 1 || colSpan != 1;
     }
 
     public Cell getRoot() {
@@ -67,6 +90,19 @@ public class Cell {
             return this;
         }
         return root;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cell cell = (Cell) o;
+        return row == cell.row && col == cell.col && rowSpan == cell.rowSpan && colSpan == cell.colSpan && display == cell.display;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col, rowSpan, colSpan, display);
     }
 
     @Override
