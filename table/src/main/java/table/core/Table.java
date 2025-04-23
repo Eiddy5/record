@@ -66,6 +66,7 @@ public class Table {
 
         } while (changed);
 
+        System.out.println("Adjusted selection: " + adjusted);
         return adjusted;
     }
 

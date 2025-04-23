@@ -14,7 +14,7 @@ public class Main {
 
         System.out.println("---------table----------");
         System.out.println(table);
-        Selection selection = new Selection(0, 0, 1, 1);
+        Selection selection = new Selection(4, 3, 4, 5);
         System.out.println("---------selection----------");
         System.out.println(selection);
         table.merge(selection);
