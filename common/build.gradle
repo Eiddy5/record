@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id 'java-library'
+}
+
+group = 'org.record'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api platform('org.junit:junit-bom:5.10.0')
+    api 'org.junit.jupiter:junit-jupiter'
+    api ("com.fasterxml.jackson.core:jackson-databind:2.18.3")
+    api ("org.projectlombok:lombok:1.18.30")
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,13 +1,6 @@
 rootProject.name = 'record'
 
 
-include 'db'
-include 'netty'
-include 'spring'
-include 'httpServer'
-include 'dubbo'
-include 'json'
-include 'cache'
-include 'demo'
 include 'table'
-
+include 'socket'
+include 'common'
