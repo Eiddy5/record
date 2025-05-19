@@ -1,14 +1,13 @@
 package table;
 
+import org.junit.jupiter.api.Test;
 import table.core.Table;
 import table.core.TableFactory;
 import table.selection.Selection;
 
-public class Main {
-
-
-    public static void main(String[] args) {
-
+public class TableTest {
+    @Test
+    public void test() {
 
         Table table = TableFactory.create(10, 10);
 

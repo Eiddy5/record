@@ -1,10 +1,8 @@
 package table.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import json.JsonObject;
 import lombok.Data;
-
-import java.util.Objects;
+import org.record.json.JsonObject;
 
 @Data
 public class Cell {
